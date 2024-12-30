@@ -1,0 +1,1 @@
+The purpose of this code is to pull financial information for specified stocks, run calculations based on Return on Investment Value, Annual Change in Revenue, and Net Profit Margin. When Run, this code produces a pop-up showing these values. 
