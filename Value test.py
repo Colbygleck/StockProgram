@@ -20,8 +20,6 @@ def get_yahoo_statistics(ticker_symbol):
        for row in rows:
            if row.find(string='Enterprise Value'):
                ev = row.find_all('td')[1].text.strip()
-           elif row.find(string='Net Income'):
-               net_income = row.find_all('td')[1].text.strip()
                
        return ev, net_income
    except Exception as e:
@@ -29,6 +27,10 @@ def get_yahoo_statistics(ticker_symbol):
 
 stock_symbol = 'ACGL'
 ticker = yf.Ticker(stock_symbol)
+
+# Get values from Yahoo Finance website
+web_ev, web_net_income = get_yahoo_statistics(stock_symbol)
+print(f"Yahoo Finance Website EV: ${web_ev}")
 
 # Calculate EV using yfinance data
 market_cap = ticker.info.get('marketCap', 'N/A')
@@ -40,8 +42,3 @@ if market_cap != 'N/A':
    print(f"YFinance Calculated EV: ${ev_calculated/1e9:.2f}B")
    print(f"YFinance Direct EV: ${ticker.info.get('enterpriseValue', 'N/A')/1e9:.2f}B")
    print(f"YFinance Net Income: ${ticker.info.get('netIncomeToCommon', 0)/1e9:.2f}B")
-
-# Get values from Yahoo Finance website
-web_ev, web_net_income = get_yahoo_statistics(stock_symbol)
-print(f"Yahoo Finance Website EV: {web_ev}")
-print(f"Yahoo Finance Website Net Income: {web_net_income}")
