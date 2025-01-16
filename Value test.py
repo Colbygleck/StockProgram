@@ -1,17 +1,20 @@
 import yfinance as yf
 
 stock_symbol = 'ACGL'
-
 ticker = yf.Ticker(stock_symbol)
 
-stock_data = ticker.history(period='5d', interval='1h',)
+# Get components to calculate enterprise value
+market_cap = ticker.info.get('marketCap', 'N/A')
+total_debt = ticker.info.get('totalDebt', 0)
+cash_and_cash_equiv = ticker.info.get('totalCash', 0)
 
-financials = ticker.financials
-
-enterprise_value = ticker.info.get('enterpriseValue', 'N/A')
-net_income = financials.loc['Net Income'] if 'Net Income' in financials.index else 'N/A'
-
-print("Stock Data (Last 5 days, 1 hour interval):")
-print(stock_data)
-print("\nEnterprise Value:", enterprise_value)
-print("Net Income:", net_income)
+# Calculate enterprise value manually
+if market_cap != 'N/A':
+    enterprise_value = market_cap + total_debt - cash_and_cash_equiv
+    print(f"Market Cap: ${market_cap/1e9:.2f}B")
+    print(f"Total Debt: ${total_debt/1e9:.2f}B")
+    print(f"Cash & Equivalents: ${cash_and_cash_equiv/1e9:.2f}B")
+    print(f"Calculated Enterprise Value: ${enterprise_value/1e9:.2f}B")
+    print(f"YFinance Direct EV: ${ticker.info.get('enterpriseValue', 'N/A')/1e9:.2f}B")
+else:
+    print("Could not calculate enterprise value - missing data")
