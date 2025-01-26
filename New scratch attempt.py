@@ -61,4 +61,8 @@ ticker = yf.Ticker(stock_symbol)
 
 web_ev = scrape_yahoo_statistics(stock_symbol)
 print(f"Yahoo Finance Website EV: ${web_ev}")
-print(f"Net Income: ${pull_yahoo_data(net_income)}")
+net_income_data = pull_yahoo_data(stock_symbol)
+if net_income_data and 'net_income' in net_income_data:
+    print(f"Net Income: ${net_income_data['net_income']}")
+else:
+    print("Net Income data not availible.")

@@ -83,7 +83,7 @@ def display_metrics(df):
 
 # Main function to fetch, process, display, and save data
 def main():
-    tickers = ['APTV']
+    tickers = ['SMR','NUKZ', 'DTCR']
     data, financials = fetch_data(tickers)
     df = process_data(data, financials)
     
